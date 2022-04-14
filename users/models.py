@@ -10,9 +10,10 @@ class User(AbstractUser):
 
     GENDER_CHOICES = ((GENDER_MALE, "Male"), (GENDER_FEMALE, "Female"))
     
-    name = models.CharField(max_length=30)
+    username = models.CharField(max_length=30, unique=True)
     gender = models.CharField(
         choices=GENDER_CHOICES, max_length=10, blank=True
     )
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
+    
