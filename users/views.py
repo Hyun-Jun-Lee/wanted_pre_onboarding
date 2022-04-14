@@ -3,7 +3,6 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 from .models import User
 from .serializers import UserSerializer
-from .permissions import IsOwner
 
 # Create your views here.
 
