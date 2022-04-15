@@ -10,9 +10,13 @@ class ProductSerializer(serializers.ModelSerializer):
             'description',
             'goal_amount',
             'closing_date',
-            'funding_amount',
+            'onetime_funding_amount',
+            'total_funding_amount',
             'publisher',
             'supporter',
             'supporter_count',
-            'd_day'
+            'd_day',
+            'created_at',
+            'updated_at'
             ]
+        read_only_fields = ('total_funding_amount',)
