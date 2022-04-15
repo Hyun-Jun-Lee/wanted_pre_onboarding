@@ -1,3 +1,4 @@
+from functools import partial
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import filters
@@ -6,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from .models import Product
-from .serializers import ProductSerializer, ProductDetailSerializer
+from .serializers import ProductSerializer, ProductDetailSerializer, FundingSerializer
 
 # Create your views here.
 
@@ -32,6 +33,10 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
         product.delete()
         return Response("Delete Complete",status=status.HTTP_200_OK)
 
+class FundingAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = FundingSerializer
+        
     
         
     
