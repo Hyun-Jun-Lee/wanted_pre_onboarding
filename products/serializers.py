@@ -7,16 +7,44 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'title',
+            'publisher',
+            'publisher_username',
+            'total_funding_amount',
+            'funding_rate',
+            'd_day',
             'description',
             'goal_amount',
             'closing_date',
             'onetime_funding_amount',
-            'total_funding_amount',
-            'publisher',
-            'supporter',
             'supporter_count',
-            'd_day',
             'created_at',
             'updated_at'
             ]
         read_only_fields = ('total_funding_amount',)
+        extra_kwargs = {
+            'publisher' : {'write_only':True}
+        }
+        
+class ProductDetailSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Product
+        fields = [
+            'title',
+            'publisher',
+            'publisher_username',
+            'total_funding_amount',
+            'funding_rate',
+            'd_day',
+            'description',
+            'goal_amount',
+            'supporter_count',
+            'closing_date',
+            'onetime_funding_amount',
+            'created_at',
+            'updated_at'
+            ]
+        read_only_fields = ('total_funding_amount','goal_amount')
+        extra_kwargs = {
+            'publisher' : {'write_only':True}
+        }
