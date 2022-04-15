@@ -28,6 +28,12 @@ class Product(models.Model):
         target_day = datetime.date(spplit[0],spplit[1],spplit[2])
         values = target_day - now
         return values.days
+    
+    def funding_rate(self):
+        return f'{(self.total_funding_amount / self.goal_amount) *100 :.0f}%'
+    
+    def publisher_username(self):
+        return self.publisher.username
         
         
     
