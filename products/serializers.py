@@ -71,4 +71,5 @@ class FundingSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.total_funding_amount += instance.onetime_funding_amount
         instance.save()
-        return instance
+        return super().update(instance, validated_data)
+    

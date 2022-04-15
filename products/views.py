@@ -36,7 +36,6 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class FundingAPIView(generics.RetrieveUpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = FundingSerializer
-        
     
         
     
