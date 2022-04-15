@@ -1,20 +1,37 @@
 from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import filters
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from .models import Product
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, ProductDetailSerializer
 
 # Create your views here.
 
-class ProductViewSet(viewsets.ModelViewSet):
+class ProductListAPIView(generics.ListCreateAPIView):
+    
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+    
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['@title']
+    search_fields = ['title']
     ordering_fields = ['created_at', 'total_funding_amount']
+    
+class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductDetailSerializer
+
+    
+    def delete(self, request, pk):
+        product = Product.objects.get(pk=pk)
+        if product.publisher.username != request.user.username:
+            return Response("It's Not Your Room", status=status.HTTP_401_UNAUTHORIZED)
+        product.delete()
+        return Response("Delete Complete",status=status.HTTP_200_OK)
+
+    
+        
     
