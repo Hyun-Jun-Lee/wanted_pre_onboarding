@@ -6,11 +6,15 @@ import datetime
 
 class Product(models.Model):
     
+    created_at = models.DateField(auto_now_add = True)
+    updated_at = models.DateField(auto_now = True)
+    
     title = models.CharField(max_length=30)
     description = models.TextField()
     goal_amount = models.IntegerField()
     closing_date = models.DateField()
-    funding_amount = models.IntegerField()
+    onetime_funding_amount = models.IntegerField()
+    total_funding_amount = models.IntegerField(default=0)
     
     publisher = models.ForeignKey(User, related_name="products", on_delete=models.CASCADE)
     supporter = models.ManyToManyField("users.User")

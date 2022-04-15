@@ -9,7 +9,7 @@ class ProductAdmin(admin.ModelAdmin):
             'description',
             'goal_amount',
             'closing_date',
-            'funding_amount',
+            'onetime_funding_amount',
             'publisher',
             'supporter_count',
             'd_day'
