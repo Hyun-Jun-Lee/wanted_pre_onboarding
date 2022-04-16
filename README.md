@@ -101,18 +101,9 @@ class UserViewSet(ModelViewSet):
     
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-    def get_permissions(self):
-        if self.action == "destroy" or self.action == "partial_update":
-            permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-        else:
-            permission_classes = [permissions.AllowAny]
-        return [permission() for permission in permission_classes]
 ```
 
 인증, 권한 등은 평가요소에 포함되지 않아서 커스텀할 것이 별로 없다고 생각하여 ModelVieset을 이용해 `UserViewSet` 클래스를 생성하고, `queryset`과 `seriializer_class`를 설정했다. 
-
-인증, 권한 관련 항목은 평가요소에 들어가지 않지만, 최소한의 구현을 위해 user 삭제와 수정은 인증된 사용자만 가능하고 나머지는 조회만 가능하도록 `IsAuthenticatedOrReadOnly`를 permission_classes로 지정했다.
 
 <br>
 
