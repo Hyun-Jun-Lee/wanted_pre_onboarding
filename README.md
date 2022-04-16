@@ -1,7 +1,22 @@
 # wanted_pre_onboarding
 
-> 서비스 개요
-> 
+- [wanted_pre_onboarding](#wanted_pre_onboarding)
+- [서비스 개요](#서비스-개요)
+- [요구사항](#요구사항)
+- [구현 과정](#구현-과정)
+  - [Strat Project](#strat-project)
+  - [users](#users)
+    - [users/models.py](#usersmodelspy)
+    - [users/serializers.py](#usersserializerspy)
+    - [users/views.py](#usersviewspy)
+    - [users/urls.py](#usersurlspy)
+  - [products](#products)
+    - [products/models.py](#productsmodelspy)
+    - [products/serializers.py](#productsserializerspy)
+    - [products/views.py](#productsviewspy)
+
+# 서비스 개요
+
 본 서비스는 크라우드 펀딩 기능을 제공합니다. 게시자는 크라우드 펀딩을 받기위한 상품(=게시물)을 등록합니다.
 
 유저는 해당 게시물의 펀딩하기 버튼을 클릭하여 해당 상품 ‘1회펀딩금액’ 만큼 펀딩합니다.
@@ -17,7 +32,7 @@
   - [x] (`달성률`: 1,000,000원 목표금액 일때,  총 펀딩금액이 5,000,000원 이면 500%, 소수점 무시)
 - [x] : 상품 상세 페이지 : `제목`, `게시자명`, `총펀딩금액`, `달성률`, `D-day(펀딩 종료일까지)`, `상품설명`, `목표금액`  및 `참여자 수` 가 포함되어야 합니다.
 
-# 요구사항 구현 과정
+# 구현 과정
 
 ## Strat Project
 
@@ -161,6 +176,8 @@ datetime 라이브러리 활용하여 오늘 날짜인 `now`를 만들고 closin
 달성률을 구현하기 위해 `funding_rate` 함수 작성, f-string으로 소수점 제외하고 %가 표기되도록 구현
 
 ### products/serializers.py
+
+### products/views.py
 
 
 
