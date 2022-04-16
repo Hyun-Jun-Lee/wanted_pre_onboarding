@@ -135,8 +135,8 @@ router.register("users", views.UserViewSet)
 urlpatterns =router.urls
 ```
 
-- `v1/users` : users 목록 조회 및 생성('get':'list', 'post':'create')
-- `v1/users/<int:pk>` : users 상세 및 수정, 삭제('get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy')
+- `v1/users` : users 목록 조회 및 생성
+- `v1/users/<int:pk>` : users 상세 및 수정, 삭제
 
 <br>
 
@@ -307,10 +307,75 @@ class FundingSerializer(serializers.ModelSerializer):
 
 ### products/views.py
 
+- `ProductListAPIView`
+
+```python
+class ProductListAPIView(generics.ListCreateAPIView):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title']
+    ordering_fields = ['created_at', 'total_funding_amount']
+```
+
+목록 조회와 생성을 지원하는 `ListCreateAPIVew`를 상속받아서 작성
+
+요구사항에 따라 검색기능 및 정렬 기능을 구현하기 위해 rest_framework.filters 라이브러리에서 `SearchFilter`, `OrderingFilter` 사용하고 `search_fields`와 `ordering_fields` 지정
+
+<br>
+
+- `ProductDetailAPIView`
+
+```python
+class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductDetailSerializer
+
+    
+    def delete(self, request, pk):
+        product = Product.objects.get(pk=pk)
+        if product.publisher.username != request.user.username:
+            return Response("It's Not Your Room", status=status.HTTP_401_UNAUTHORIZED)
+        product.delete()
+        return Response("Delete Complete",status=status.HTTP_200_OK)
+```
+
+목록 조회, 수정, 삭제를 지원하는 `RetrieveUpdateDestroyAPIView`를 상속받아 작성
+
+상품 게시자와 현재 사용자의 `username`이 같을 때만 상품을 삭제할 수 있도록 `delete` 함수 커스텀
+
+<br>
+
+- `FundingAPIView`
+
+```python
+class FundingAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = FundingSerializer
+```
+
+목록 조회와 수정을 지원하는 `RetrieveUpdateAPIView`를 상속받아 작성
+
 <br>
 
 ### products/urls.py
 
+```python
+app_name = "products"
+
+urlpatterns =[
+    path("products", views.ProductListAPIView.as_view()),
+    path("products/<int:pk>", views.ProductDetailAPIView.as_view()),
+    path("products/<int:pk>/funding", views.FundingAPIView.as_view()),
+]
+```
+
+- `v1/products` : products 목록 조회 및 생성
+- `v1/products/<int:pk>` : products 상세 및 수정, 삭제
+- `v1/products/<int:pk>/funding` : 펀딩 기능 구현
 
 
 
